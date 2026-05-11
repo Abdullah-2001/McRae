@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>McRae Entertainment | Premium Cinema Universe</title>
+  <!-- Tailwind CSS v3 + Font Awesome + Google Fonts -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      font-family: 'Inter', sans-serif;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      background-color: #000000;
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f0f0f;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #e50914;
+      border-radius: 10px;
+    }
+    .movie-card {
+      transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    }
+    .movie-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 30px 40px -15px rgba(229, 9, 20, 0.5);
+    }
+    .nav-blur {
+      backdrop-filter: blur(16px);
+      background-color: rgba(0, 0, 0, 0.85);
+      transition: all 0.3s;
+    }
+    .hero-gradient {
+      background: radial-gradient(circle at 20% 30%, #0a0a0a, #000000);
+    }
+    .btn-hover-red {
+      transition: all 0.2s ease;
+    }
+    .btn-hover-red:hover {
+      background-color: #b20710;
+      transform: scale(1.03);
+      box-shadow: 0 10px 20px -5px rgba(229, 9, 20, 0.5);
+    }
+    .toast-custom {
+      backdrop-filter: blur(12px);
+      background: #1a1a1aee;
+      border-left: 5px solid #e50914;
+    }
+    input, textarea {
+      transition: 0.2s;
+    }
+    input:focus, textarea:focus {
+      box-shadow: 0 0 0 2px #e50914;
+      outline: none;
+      border-color: #e50914;
+    }
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .animate-fade-up {
+      animation: fadeInUp 0.6s ease-out forwards;
+    }
+    .loading-spinner {
+      border: 2px solid rgba(255,255,255,0.2);
+      border-top: 2px solid #e50914;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      animation: spin 0.8s linear infinite;
+      display: inline-block;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body class="bg-black text-gray-200">
+
+  <!-- Navigation Bar - Ultra modern glassmorphism -->
+  <nav class="fixed top-0 w-full z-50 nav-blur border-b border-red-800/40 transition-all duration-300">
+    <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+      <a href="#" class="text-2xl md:text-3xl font-extrabold tracking-tight">
+        <span class="text-red-600">McRAE</span><span class="text-white"> ENTERTAINMENT</span>
+        <i class="fas fa-film text-red-600 ml-1"></i>
+      </a>
+      <div class="hidden md:flex space-x-7 items-center">
+        <a href="#home" class="nav-link text-sm font-semibold hover:text-red-600 transition border-b-2 border-transparent hover:border-red-600 pb-1">HOME</a>
+        <a href="#available" class="nav-link text-sm font-semibold hover:text-red-600 transition border-b-2 border-transparent hover:border-red-600 pb-1">LIBRARY</a>
+        <a href="#upcoming" class="nav-link text-sm font-semibold hover:text-red-600 transition border-b-2 border-transparent hover:border-red-600 pb-1">UPCOMING</a>
+        <a href="#about" class="nav-link text-sm font-semibold hover:text-red-600 transition border-b-2 border-transparent hover:border-red-600 pb-1">STUDIO</a>
+        <a href="#contact" class="nav-link text-sm font-semibold hover:text-red-600 transition border-b-2 border-transparent hover:border-red-600 pb-1">CONTACT</a>
+      </div>
+      <div class="md:hidden">
+        <button id="mobileMenuBtn" class="text-white text-2xl focus:outline-none"><i class="fas fa-bars"></i></button>
+      </div>
+    </div>
+    <div id="mobileMenu" class="hidden md:hidden bg-black/95 backdrop-blur-lg border-t border-red-900/50 flex flex-col space-y-4 px-6 pb-5 text-center">
+      <a href="#home" class="py-2 hover:text-red-600 font-semibold">HOME</a>
+      <a href="#available" class="py-2 hover:text-red-600 font-semibold">LIBRARY</a>
+      <a href="#upcoming" class="py-2 hover:text-red-600 font-semibold">UPCOMING</a>
+      <a href="#about" class="py-2 hover:text-red-600 font-semibold">STUDIO</a>
+      <a href="#contact" class="py-2 hover:text-red-600 font-semibold">CONTACT</a>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section id="home" class="hero-gradient pt-32 pb-20 md:pt-40 md:pb-28 relative overflow-hidden">
+    <div class="absolute top-0 left-0 w-full h-full opacity-20 bg-[url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1925&auto=format')] bg-cover bg-center mix-blend-overlay"></div>
+    <div class="container mx-auto px-6 relative z-10">
+      <div class="flex flex-col lg:flex-row items-center gap-12">
+        <div class="flex-1 text-center lg:text-left animate-fade-up">
+          <span class="inline-block bg-red-600/90 text-white text-xs font-bold uppercase px-4 py-1.5 rounded-full tracking-wider mb-5 shadow-lg"><i class="fas fa-crown mr-1"></i> McRAE ORIGINALS</span>
+          <h1 class="text-5xl md:text-7xl font-black leading-tight text-white">Where <span class="text-red-600 border-b-4 border-red-600">Stories</span> Ignite</h1>
+          <p class="text-gray-300 text-lg md:text-xl mt-6 max-w-2xl mx-auto lg:mx-0">Experience visionary cinema. 4K HDR, Dolby Atmos, and exclusive McRae productions — available instantly.</p>
+          <div class="flex flex-wrap gap-5 mt-8 justify-center lg:justify-start">
+            <a href="#available" class="bg-red-700 hover:bg-red-800 text-white font-bold py-3 px-8 rounded-md transition-all shadow-lg flex items-center gap-2"><i class="fas fa-play"></i> Explore Now</a>
+            <a href="#upcoming" class="border border-red-600 text-red-500 hover:bg-red-600 hover:text-white font-bold py-3 px-8 rounded-md transition-all flex items-center gap-2"><i class="far fa-calendar-alt"></i> Coming Soon</a>
+          </div>
+        </div>
+        <div class="flex-1 flex justify-center">
+          <div class="relative group">
+            <div class="absolute -inset-1 bg-gradient-to-r from-red-700 to-red-500 rounded-2xl blur-xl opacity-70 group-hover:opacity-100 transition duration-500"></div>
+            <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=600&h=400&fit=crop" alt="cinema spotlight" class="relative rounded-2xl shadow-2xl border border-gray-800 w-80 md:w-full max-w-md">
+            <div class="absolute top-4 left-4 bg-black/70 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-semibold text-red-500"><i class="fas fa-fire"></i> TRENDING GLOBAL</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AVAILABLE MOVIES SECTION -->
+  <section id="available" class="py-20 bg-gradient-to-b from-black to-zinc-950">
+    <div class="container mx-auto px-6">
+      <div class="flex justify-between items-end flex-wrap gap-4 mb-12">
+        <div>
+          <span class="text-red-600 font-bold tracking-wider text-sm uppercase"><i class="fas fa-stream mr-1"></i> WATCH INSTANTLY</span>
+          <h2 class="text-4xl md:text-5xl font-black text-white mt-2">Now Available <span class="text-red-600">· McRae Exclusives</span></h2>
+        </div>
+        <span class="bg-zinc-900 px-4 py-2 rounded-full text-sm font-medium text-gray-300 border border-zinc-800"><i class="fas fa-glasses"></i> 12+ award-winning films</span>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7">
+        <!-- Movie cards with strong visuals -->
+        <div class="movie-card bg-zinc-900 rounded-xl overflow-hidden border border-zinc-800 hover:border-red-600 transition-all duration-300">
+          <div class="relative overflow-hidden"><img src="https://image.tmdb.org/t/p/w500/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg" alt="Midnight Racer" class="w-full h-80 object-cover transition-transform duration-700 hover:scale-105" onerror="this.src='https://placehold.co/400x600/1a1a1a/e50914?text=MIDNIGHT+RACER'"><div class="absolute top-3 right-3 bg-black/70 rounded-full px-2 py-1 text-xs font-bold text-red-500 backdrop-blur-sm"><i class="fas fa-tachometer-alt"></i> 4K HDR</div></div>
+          <div class="p-4"><h3 class="text-xl font-bold text-white">Midnight Racer</h3><div class="flex items-center gap-3 text-sm text-gray-400 mt-1"><span><i class="far fa-clock"></i> 2h 18m</span><span><i class="fas fa-star text-yellow-500"></i> 8.7</span><span>Action</span></div><p class="text-gray-400 text-sm mt-2">Neon-fueled underground racing heist.</p><button class="w-full mt-4 bg-red-700 hover:bg-red-800 py-2 rounded-md font-semibold transition flex items-center justify-center gap-2"><i class="fas fa-play"></i> Stream Now</button></div>
+        </div>
+        <div class="movie-card bg-zinc-900 rounded-xl overflow-hidden border border-zinc-800 hover:border-red-600 transition-all duration-300">
+          <div class="relative overflow-hidden"><img src="https://image.tmdb.org/t/p/w500/6oom5QYQ2yQTMJIbnvbkBL9cHo6.jpg" alt="Shadows of Red" class="w-full h-80 object-cover transition-transform duration-700 hover:scale-105"><div class="absolute top-3 right-3 bg-black/70 rounded-full px-2 py-1 text-xs font-bold text-red-500"><i class="fas fa-crown"></i> EXCLUSIVE</div></div>
+          <div class="p-4"><h3 class="text-xl font-bold text-white">Shadows of Red</h3><div class="flex items-center gap-3 text-sm text-gray-400 mt-1"><span><i class="far fa-clock"></i> 1h 56m</span><span><i class="fas fa-star text-yellow-500"></i> 9.1</span><span>Thriller</span></div><p class="text-gray-400 text-sm mt-2">Gripping neo-noir with stunning twists.</p><button class="w-full mt-4 bg-red-700 hover:bg-red-800 py-2 rounded-md font-semibold transition flex items-center justify-center gap-2"><i class="fas fa-play"></i> Stream Now</button></div>
+        </div>
+        <div class="movie-card bg-zinc-900 rounded-xl overflow-hidden border border-zinc-800 hover:border-red-600"><div class="relative overflow-hidden"><img src="https://image.tmdb.org/t/p/w500/8c4a8kE7P3Gj4CKtEHCzSJpA5fR.jpg" alt="Neon Legacy" class="w-full h-80 object-cover transition-transform duration-700 hover:scale-105"><div class="absolute top-3 right-3 bg-black/70 rounded-full px-2 py-1 text-xs font-bold text-red-500">IMAX</div></div><div class="p-4"><h3 class="text-xl font-bold text-white">Neon Legacy</h3><div class="flex items-center gap-3 text-sm text-gray-400"><span><i class="far fa-clock"></i> 2h 32m</span><span><i class="fas fa-star text-yellow-500"></i> 8.9</span><span>Sci-Fi</span></div><p class="text-gray-400 text-sm mt-2">Cyberpunk epic exploring AI rebellion.</p><button class="w-full mt-4 bg-red-700 hover:bg-red-800 py-2 rounded-md font-semibold transition flex items-center justify-center gap-2"><i class="fas fa-play"></i> Stream Now</button></div></div>
+        <div class="movie-card bg-zinc-900 rounded-xl overflow-hidden border border-zinc-800 hover:border-red-600"><div class="relative overflow-hidden"><img src="https://image.tmdb.org/t/p/w500/4Y2Va6k30NWEFR3dIWjFnH7CbfQ.jpg" alt="Crimson Echoes" class="w-full h-80 object-cover transition-transform duration-700 hover:scale-105"><div class="absolute top-3 right-3 bg-black/70 rounded-full px-2 py-1 text-xs font-bold text-red-500"><i class="fas fa-award"></i> AWARD</div></div><div class="p-4"><h3 class="text-xl font-bold text-white">Crimson Echoes</h3><div class="flex items-center gap-3 text-sm text-gray-400"><span><i class="far fa-clock"></i> 2h 05m</span><span><i class="fas fa-star text-yellow-500"></i> 9.4</span><span>Drama</span></div><p class="text-gray-400 text-sm mt-2">Powerful redemption story.</p><button class="w-full mt-4 bg-red-700 hover:bg-red-800 py-2 rounded-md font-semibold transition flex items-center justify-center gap-2"><i class="fas fa-play"></i> Stream Now</button></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- UPCOMING PREMIERES SECTION -->
+  <section id="upcoming" class="py-20 bg-black">
+    <div class="container mx-auto px-6">
+      <div class="flex justify-between items-center flex-wrap gap-4 mb-10"><div><span class="text-red-500 font-bold text-sm uppercase tracking-wider"><i class="fas fa-hourglass-half"></i> DON'T MISS OUT</span><h2 class="text-4xl md:text-5xl font-black text-white mt-2">Coming <span class="text-red-600">2026</span> · World Premieres</h2></div><span class="text-gray-400 bg-zinc-900 py-2 px-4 rounded-full text-sm"><i class="fas fa-ticket-alt"></i> Early access available</span></div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7">
+        <div class="bg-zinc-900 rounded-xl border border-zinc-800 hover:border-red-600 transition-all duration-300 overflow-hidden"><div class="relative"><img src="https://image.tmdb.org/t/p/w500/3iYF4TLJvS1rnyjqK15IS4W8BZo.jpg" class="w-full h-80 object-cover" alt="Blood & Glory"><div class="absolute bottom-3 left-3 bg-red-700 text-white text-xs px-3 py-1 rounded-full font-bold"><i class="fas fa-calendar-week"></i> May 2026</div></div><div class="p-4"><h3 class="text-xl font-bold">Blood & Glory</h3><p class="text-gray-400 text-sm mt-1">Epic swords & kingdoms action.</p><button class="remind-btn mt-3 w-full border border-red-600 text-red-500 hover:bg-red-600 hover:text-white py-2 rounded-md font-semibold transition flex items-center justify-center gap-2"><i class="fas fa-bell"></i> Remind Me</button></div></div>
+        <div class="bg-zinc-900 rounded-xl border border-zinc-800 hover:border-red-600 transition-all duration-300 overflow-hidden"><div class="relative"><img src="https://image.tmdb.org/t/p/w500/7BvRjY8rP53HqHZsK9IgKwkEv0j.jpg" class="w-full h-80 object-cover" alt="Void Runners"><div class="absolute bottom-3 left-3 bg-red-700 text-white text-xs px-3 py-1 rounded-full font-bold"><i class="fas fa-calendar-week"></i> June 2026</div></div><div class="p-4"><h3 class="text-xl font-bold">Void Runners</h3><p class="text-gray-400 text-sm mt-1">Interstellar survival race.</p><button class="remind-btn mt-3 w-full border border-red-600 text-red-500 hover:bg-red-600 hover:text-white py-2 rounded-md font-semibold transition"><i class="fas fa-bell mr-2"></i> Remind Me</button></div></div>
+        <div class="bg-zinc-900 rounded-xl border border-zinc-800 hover:border-red-600 transition-all duration-300 overflow-hidden"><div class="relative"><img src="https://image.tmdb.org/t/p/w500/9xjZS2rlVxm8SFx8kPC3aIGCOYQ.jpg" class="w-full h-80 object-cover" alt="Last Signal"><div class="absolute bottom-3 left-3 bg-red-700 text-white text-xs px-3 py-1 rounded-full font-bold"><i class="fas fa-calendar-week"></i> Aug 2026</div></div><div class="p-4"><h3 class="text-xl font-bold">Last Signal</h3><p class="text-gray-400 text-sm mt-1">Mystery thriller broadcast.</p><button class="remind-btn mt-3 w-full border border-red-600 text-red-500 hover:bg-red-600 hover:text-white py-2 rounded-md font-semibold transition"><i class="fas fa-bell mr-2"></i> Remind Me</button></div></div>
+        <div class="bg-zinc-900 rounded-xl border border-zinc-800 hover:border-red-600 transition-all duration-300 overflow-hidden"><div class="relative"><img src="https://image.tmdb.org/t/p/w500/7IiTTgloJzvGI1TAYymCfbfl3vT.jpg" class="w-full h-80 object-cover" alt="Crimson Dynasty"><div class="absolute bottom-3 left-3 bg-red-700 text-white text-xs px-3 py-1 rounded-full font-bold"><i class="fas fa-calendar-week"></i> Oct 2026</div></div><div class="p-4"><h3 class="text-xl font-bold">Crimson Dynasty</h3><p class="text-gray-400 text-sm mt-1">Historical epic of betrayal.</p><button class="remind-btn mt-3 w-full border border-red-600 text-red-500 hover:bg-red-600 hover:text-white py-2 rounded-md font-semibold transition"><i class="fas fa-bell mr-2"></i> Remind Me</button></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT US SECTION -->
+  <section id="about" class="py-24 bg-gradient-to-r from-zinc-950 to-black">
+    <div class="container mx-auto px-6">
+      <div class="flex flex-col lg:flex-row gap-14 items-center bg-zinc-900/40 backdrop-blur-sm rounded-3xl border border-zinc-800 p-8 md:p-12 shadow-2xl">
+        <div class="lg:w-2/5"><img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=600&h=500&fit=crop" alt="Studio" class="rounded-2xl shadow-2xl w-full border border-red-900/50"></div>
+        <div class="lg:w-3/5"><span class="text-red-500 font-bold uppercase tracking-wider text-sm"><i class="fas fa-landmark"></i> THE FORCE BEHIND THE STORIES</span>
+          <h2 class="text-4xl md:text-5xl font-black text-white mt-2">McRae <span class="text-red-600">Entertainment</span> Universe</h2>
+          <div class="w-20 h-1 bg-red-600 my-5"></div>
+          <p class="text-gray-300 text-lg leading-relaxed">We are a cinematic powerhouse dedicated to bold, original storytelling. With immersive visuals, next-gen sound, and uncompromising creative vision, McRae Entertainment redefines the streaming era. Each film is crafted to push boundaries — from indie gems to global blockbusters.</p>
+          <div class="grid grid-cols-2 gap-4 mt-8"><div class="flex items-center gap-3"><i class="fas fa-check-circle text-red-600 text-xl"></i><span>4K Ultra HD + IMAX Enhanced</span></div><div class="flex items-center gap-3"><i class="fas fa-check-circle text-red-600 text-xl"></i><span>McRae Originals</span></div><div class="flex items-center gap-3"><i class="fas fa-check-circle text-red-600 text-xl"></i><span>Early Access Premieres</span></div><div class="flex items-center gap-3"><i class="fas fa-check-circle text-red-600 text-xl"></i><span>Global Film Fest Winners</span></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT SECTION - FULLY FUNCTIONAL WITH PROVIDED API INTEGRATION -->
+  <section id="contact" class="py-24 bg-black relative">
+    <div class="container mx-auto px-6">
+      <div class="bg-zinc-900/80 rounded-3xl border border-zinc-800 p-8 md:p-12">
+        <div class="grid md:grid-cols-2 gap-12">
+          <div><span class="text-red-500 font-bold uppercase tracking-wide text-sm"><i class="fas fa-comment-dots"></i> CONNECT WITH US</span>
+            <h3 class="text-3xl md:text-4xl font-bold text-white mt-2">Let's talk cinema</h3>
+            <p class="text-gray-400 mt-3">Pitches, press, fans — we'd love to hear from you. Our team replies within 24h.</p>
+            <div class="space-y-4 mt-8"><div class="flex gap-4 items-center"><div class="w-10 h-10 bg-red-900/30 rounded-full flex items-center justify-center text-red-500"><i class="fas fa-envelope"></i></div><div><p class="font-semibold text-white">hello@mcraeentertainment.com</p></div></div>
+            <div class="flex gap-4 items-center"><div class="w-10 h-10 bg-red-900/30 rounded-full flex items-center justify-center text-red-500"><i class="fas fa-phone-alt"></i></div><div><p class="font-semibold text-white">+1 (800) 555-0199</p></div></div>
+            <div class="flex gap-4 items-center"><div class="w-10 h-10 bg-red-900/30 rounded-full flex items-center justify-center text-red-500"><i class="fas fa-map-marker-alt"></i></div><div><p class="font-semibold text-white">700 Hollywood Blvd, Los Angeles, CA</p></div></div>
+            <div class="flex gap-4 pt-4"><a href="#" class="text-gray-400 hover:text-red-500 text-2xl transition"><i class="fab fa-instagram"></i></a><a href="#" class="text-gray-400 hover:text-red-500 text-2xl transition"><i class="fab fa-twitter"></i></a><a href="#" class="text-gray-400 hover:text-red-500 text-2xl transition"><i class="fab fa-youtube"></i></a></div></div>
+          </div>
+          <div>
+            <form id="contactForm" class="space-y-5">
+              <div><label class="block text-sm font-medium text-gray-300 mb-1">Full Name *</label><input type="text" id="name" class="w-full bg-black border border-zinc-700 rounded-lg p-3 text-white focus:border-red-600 focus:ring-0" placeholder="John McRae" required></div>
+              <div><label class="block text-sm font-medium text-gray-300 mb-1">Company (Optional)</label><input type="text" id="company" class="w-full bg-black border border-zinc-700 rounded-lg p-3 text-white focus:border-red-600" placeholder="Studio Name"></div>
+              <div><label class="block text-sm font-medium text-gray-300 mb-1">Phone Number *</label><input type="tel" id="phone" class="w-full bg-black border border-zinc-700 rounded-lg p-3 text-white focus:border-red-600" placeholder="+1 234 567 8900" required></div>
+              <div><label class="block text-sm font-medium text-gray-300 mb-1">Email Address *</label><input type="email" id="email" class="w-full bg-black border border-zinc-700 rounded-lg p-3 text-white focus:border-red-600" placeholder="hello@example.com" required></div>
+              <div><label class="block text-sm font-medium text-gray-300 mb-1">Your Message *</label><textarea id="message" rows="3" class="w-full bg-black border border-zinc-700 rounded-lg p-3 text-white focus:border-red-600" placeholder="Tell us about your project, question, or fandom..."></textarea></div>
+              <button type="submit" id="submitBtn" class="bg-red-700 hover:bg-red-800 w-full py-3 rounded-xl font-bold text-white transition-all flex items-center justify-center gap-2 shadow-xl"><i class="fas fa-paper-plane"></i> Send Message →</button>
+            </form>
+            <div id="formStatus" class="mt-4 text-center text-sm hidden transition-all"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Toast Notification -->
+    <div id="customToast" class="fixed bottom-6 right-6 z-50 hidden transition-all duration-300 toast-custom rounded-lg shadow-2xl px-5 py-3 text-white max-w-md flex items-center gap-3 border-l-4 border-red-600"><i class="fas fa-bell text-red-400"></i><span id="toastMessageText">Message sent!</span><button onclick="closeToast()" class="ml-4 text-gray-400 hover:text-white"><i class="fas fa-times"></i></button></div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-zinc-800 py-10 bg-black">
+    <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4"><div><p class="text-gray-500 text-sm">© 2026 McRae Entertainment — Bold stories. Iconic visuals. <i class="fas fa-heart text-red-600"></i></p></div><div class="flex gap-6 text-gray-400 text-sm"><a href="#home" class="hover:text-red-500">Home</a><a href="#available" class="hover:text-red-500">Movies</a><a href="#upcoming" class="hover:text-red-500">Upcoming</a><a href="#about" class="hover:text-red-500">About</a></div><div><i class="fas fa-shield-alt text-red-600"></i> <span class="text-gray-500 text-sm">McRae SecureStream</span></div></div>
+  </footer>
+
+  <script>
+    // Fully integrated API endpoint as provided
+    const API_URL = 'https://payment-integration-plum.vercel.app/api/send-email';
+    
+    // DOM elements
+    const form = document.getElementById('contactForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const toastDiv = document.getElementById('customToast');
+    const toastMsgSpan = document.getElementById('toastMessageText');
+    const formStatusDiv = document.getElementById('formStatus');
+    
+    // Helper: Show toast notification
+    function showToastMessage(msg, isError = false) {
+      toastMsgSpan.innerText = msg;
+      toastDiv.classList.remove('hidden');
+      toastDiv.style.borderLeftColor = isError ? '#ff5555' : '#e50914';
+      setTimeout(() => { toastDiv.classList.add('hidden'); }, 4500);
+    }
+    
+    window.closeToast = function() { toastDiv.classList.add('hidden'); };
+    
+    // Helper: Show inline form status
+    function showFormStatus(msg, isError = false) {
+      formStatusDiv.textContent = msg;
+      formStatusDiv.classList.remove('hidden');
+      formStatusDiv.className = `mt-4 text-center text-sm ${isError ? 'text-red-400' : 'text-green-400'} transition-all`;
+      setTimeout(() => {
+        formStatusDiv.classList.add('hidden');
+      }, 5000);
+    }
+    
+    // Reset button state
+    function resetButton() {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message →';
+      submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+    }
+    
+    // Set loading state
+    function setLoading(isLoading) {
+      if (isLoading) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<div class="loading-spinner mr-2"></div> Sending...';
+        submitBtn.classList.add('opacity-70', 'cursor-wait');
+      } else {
+        resetButton();
+      }
+    }
+    
+    // Handle form submission exactly as the pattern provided
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      
+      // Get form data
+      const name = document.getElementById('name').value.trim();
+      const company = document.getElementById('company').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const message = document.getElementById('message').value.trim();
+      
+      // Validation
+      if (!name || !phone || !email || !message) {
+        showToastMessage('⚠️ Please fill all required fields.', true);
+        showFormStatus('Please fill all required fields (*)', true);
+        return;
+      }
+      
+      // Email regex validation
+      const emailRegex = /^[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}$/;
+      if (!emailRegex.test(email)) {
+        showToastMessage('❌ Please enter a valid email address.', true);
+        showFormStatus('Invalid email format', true);
+        return;
+      }
+      
+      // Prepare formData object matching pattern
+      const formData = {
+        name: name,
+        company: company || 'Not specified',
+        phone: phone,
+        email: email,
+        message: message
+      };
+      
+      setLoading(true);
+      
+      try {
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            to: 'abdullah.320409@gmail.com',
+            templateType: 'adminNotification',
+            data: formData
+          })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+          // Reset form
+          document.getElementById('name').value = '';
+          document.getElementById('company').value = '';
+          document.getElementById('phone').value = '';
+          document.getElementById('email').value = '';
+          document.getElementById('message').value = '';
+          
+          showToastMessage(`✅ Thanks ${name}! Your message has been sent successfully. We'll get back to you soon.`, false);
+          showFormStatus('Message sent! Our team will respond within 24 hours.', false);
+        } else {
+          const errorMsg = result.message || 'Failed to send email. Please try again.';
+          showToastMessage(`❌ ${errorMsg}`, true);
+          showFormStatus(errorMsg, true);
+        }
+      } catch (err) {
+        console.error('Email send error:', err);
+        showToastMessage('⚠️ Network error. Please check your connection and try again.', true);
+        showFormStatus('Network error. Please try again later.', true);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    // Attach event listener
+    form.addEventListener('submit', handleSubmit);
+    
+    // Reminder buttons for upcoming movies
+    document.querySelectorAll('.remind-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        showToastMessage('🔔 Reminder set! You will be notified when this movie releases.', false);
+      });
+    });
+    
+    // Mobile menu toggle
+    document.getElementById('mobileMenuBtn')?.addEventListener('click', () => {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('hidden');
+    });
+    
+    // Smooth scroll for nav links
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          window.scrollTo({ top: targetElement.offsetTop - 70, behavior: 'smooth' });
+        }
+      });
+    });
+    
+    // Active nav highlight on scroll
+    window.addEventListener('scroll', () => {
+      const sections = document.querySelectorAll('section[id]');
+      const scrollY = window.scrollY + 120;
+      sections.forEach(sec => {
+        if (scrollY >= sec.offsetTop && scrollY < sec.offsetTop + sec.offsetHeight) {
+          const id = sec.getAttribute('id');
+          document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('border-red-600', 'text-red-600');
+            if (link.getAttribute('href') === '#' + id) {
+              link.classList.add('border-red-600', 'text-red-600');
+            }
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
